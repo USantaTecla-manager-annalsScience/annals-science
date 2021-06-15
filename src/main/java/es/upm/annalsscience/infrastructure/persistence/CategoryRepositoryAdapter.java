@@ -30,7 +30,8 @@ public class CategoryRepositoryAdapter implements CategoryRepository {
 
     @Override
     public Optional<Category> findByName(String name) {
-        return Optional.empty();
+        return this.categoryDAO.findByName(name)
+                .map(this::map);
     }
 
     @Override
@@ -46,6 +47,11 @@ public class CategoryRepositoryAdapter implements CategoryRepository {
     @Override
     public void delete(Category category) {
         CategoryEntity categoryEntity = map(category);
+        List<CategoryEntity> childrenCategories = categoryDAO.findByParentId(category.getId())
+                .stream()
+                .peek(ce -> ce.setParentId(null))
+                .collect(Collectors.toList());
+        this.categoryDAO.saveAll(childrenCategories);
         this.categoryDAO.delete(categoryEntity);
     }
 
