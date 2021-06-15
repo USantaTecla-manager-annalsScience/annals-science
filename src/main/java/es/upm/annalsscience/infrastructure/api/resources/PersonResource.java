@@ -32,12 +32,6 @@ public class PersonResource {
         return ResponseEntity.ok(personDTOMapper.map(person));
     }
 
-    @GetMapping
-    public ResponseEntity<List<PersonDTO>> findAll() {
-        List<Person> personList = this.personService.findAll();
-        return ResponseEntity.ok(personDTOMapper.map(personList));
-    }
-
     @GetMapping("{id}")
     public ResponseEntity<PersonDTO> findById(@PathVariable Long id) {
         return personService.findById(id)
@@ -51,9 +45,11 @@ public class PersonResource {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping(params = "category")
-    public ResponseEntity<List<PersonDTO>> findById(@RequestParam("category") String category) {
-        List<Person> persons = personService.findByCategory(category);
+    @GetMapping()
+    public ResponseEntity<List<PersonDTO>> find(@RequestParam(required = false) String category) {
+        List<Person> persons;
+        if(category == null) persons = personService.findAll();
+        else persons = personService.findByCategory(category);
         return ResponseEntity.ok(personDTOMapper.map(persons));
     }
 }
