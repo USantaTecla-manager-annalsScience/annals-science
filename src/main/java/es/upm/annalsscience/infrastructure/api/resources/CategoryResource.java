@@ -1,40 +1,41 @@
 package es.upm.annalsscience.infrastructure.api.resources;
 
 import es.upm.annalsscience.domain.model.Category;
-import es.upm.annalsscience.domain.model.CreateCategory;
 import es.upm.annalsscience.domain.services.CategoryService;
-import es.upm.annalsscience.infrastructure.api.dto.CreateCategoryDTO;
 import es.upm.annalsscience.infrastructure.api.dto.CategoryDTO;
+import es.upm.annalsscience.infrastructure.api.dto.CreateCategoryDTO;
+import es.upm.annalsscience.infrastructure.api.mappers.CategoryDTOMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController()
 @RequestMapping("categories")
 public class CategoryResource {
 
     private final CategoryService categoryService;
+    private final CategoryDTOMapper categoryDTOMapper;
 
     @Autowired
-    public CategoryResource(CategoryService categoryService) {
+    public CategoryResource(CategoryService categoryService, CategoryDTOMapper categoryDTOMapper) {
         this.categoryService = categoryService;
+        this.categoryDTOMapper = categoryDTOMapper;
     }
 
     @PostMapping
     @PreAuthorize("authenticated")
     public ResponseEntity<CategoryDTO> create(@RequestBody CreateCategoryDTO createCategoryDTO) {
-        Category category = categoryService.create(map(createCategoryDTO));
-        return ResponseEntity.ok(map(category));
+        Category category = categoryService.create(categoryDTOMapper.map(createCategoryDTO));
+        return ResponseEntity.ok(categoryDTOMapper.map(category));
     }
 
     @GetMapping
     public ResponseEntity<List<CategoryDTO>> findAll() {
         List<Category> categories = categoryService.findAll();
-        return ResponseEntity.ok(map(categories));
+        return ResponseEntity.ok(categoryDTOMapper.map(categories));
     }
 
     @DeleteMapping("{id}")
@@ -43,19 +44,4 @@ public class CategoryResource {
         categoryService.delete(id);
         return ResponseEntity.ok().build();
     }
-
-    private List<CategoryDTO> map(List<Category> categories) {
-        return categories.stream()
-                .map(this::map)
-                .collect(Collectors.toList());
-    }
-
-    private CreateCategory map(CreateCategoryDTO createCategoryDTO) {
-        return new CreateCategory(createCategoryDTO.getName(), createCategoryDTO.getParentId());
-    }
-
-    private CategoryDTO map(Category category) {
-        return new CategoryDTO(category.getId(), category.getName(), category.getParentId());
-    }
-
 }

@@ -1,7 +1,7 @@
 package es.upm.annalsscience.domain.services;
 
 import es.upm.annalsscience.domain.exceptions.CategoryAlreadyExistException;
-import es.upm.annalsscience.domain.exceptions.CategoryIdNotExistException;
+import es.upm.annalsscience.domain.exceptions.CategoryNotExistException;
 import es.upm.annalsscience.domain.model.CreateCategory;
 import es.upm.annalsscience.domain.model.Category;
 import es.upm.annalsscience.domain.repositories.CategoryRepository;
@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CategoryService {
@@ -29,7 +28,7 @@ public class CategoryService {
 
         if(createCategory.getParentId() != null) {
             categoryRepository.findById(createCategory.getParentId())
-                    .orElseThrow(() -> new CategoryIdNotExistException("Category with id " + createCategory.getParentId() + " not exist"));
+                    .orElseThrow(() -> new CategoryNotExistException("Category with id " + createCategory.getParentId() + " not exist"));
         }
         return categoryRepository.save(createCategory);
     }
@@ -40,7 +39,7 @@ public class CategoryService {
 
     public void delete(Long id) {
         Category category = categoryRepository.findById(id)
-                .orElseThrow(() -> new CategoryIdNotExistException("Category with id " + id + " not exist"));
+                .orElseThrow(() -> new CategoryNotExistException("Category with id " + id + " not exist"));
         categoryRepository.delete(category);
     }
 }
