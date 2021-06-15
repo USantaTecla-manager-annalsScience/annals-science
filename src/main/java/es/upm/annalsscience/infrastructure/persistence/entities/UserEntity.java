@@ -22,6 +22,7 @@ public class UserEntity {
     @NotNull
     private String password;
 
+    @Column
     private String surname;
 
     public long getId() {

@@ -1,4 +1,4 @@
-package es.upm.annalsscience.infrastructure.api.controllers;
+package es.upm.annalsscience.infrastructure.api.resources;
 
 import es.upm.annalsscience.configuration.security.service.JwtService;
 import es.upm.annalsscience.domain.model.User;
@@ -39,19 +39,19 @@ public class UserResource {
 
     private User map(CreateUserDTO createUserDTO) {
         User user = new User();
-        user.setName(createUserDTO.name);
-        user.setEmail(createUserDTO.email);
-        user.setPassword(createUserDTO.password);
-        user.setSurname(createUserDTO.surname);
+        user.setName(createUserDTO.getName());
+        user.setEmail(createUserDTO.getEmail());
+        user.setPassword(createUserDTO.getPassword());
+        user.setSurname(createUserDTO.getSurname());
         return user;
     }
 
     private CreateUserDTO map(User user) {
         CreateUserDTO createUserDTO = new CreateUserDTO();
-        createUserDTO.name = user.getName();
-        createUserDTO.email = user.getEmail();
-        createUserDTO.password = "***";
-        createUserDTO.surname = user.getSurname();
+        createUserDTO.setName(user.getName());
+        createUserDTO.setEmail(user.getEmail());
+        createUserDTO.setPassword("***");
+        createUserDTO.setSurname(user.getSurname());
         return createUserDTO;
     }
 }

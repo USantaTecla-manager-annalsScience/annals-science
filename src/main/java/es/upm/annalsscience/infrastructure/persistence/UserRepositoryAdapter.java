@@ -1,9 +1,9 @@
 package es.upm.annalsscience.infrastructure.persistence;
 
-import es.upm.annalsscience.domain.UserRepository;
+import es.upm.annalsscience.domain.repositories.UserRepository;
 import es.upm.annalsscience.domain.model.User;
 import es.upm.annalsscience.infrastructure.persistence.entities.UserEntity;
-import es.upm.annalsscience.infrastructure.persistence.jpa.UserRepositoryJPA;
+import es.upm.annalsscience.infrastructure.persistence.jpa.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -13,22 +13,22 @@ import java.util.Optional;
 @Component
 public class UserRepositoryAdapter implements UserRepository {
 
-    private final UserRepositoryJPA userRepositoryJPA;
+    private final UserDAO userDAO;
 
     @Autowired
-    public UserRepositoryAdapter(UserRepositoryJPA userRepositoryJPA) {
-        this.userRepositoryJPA = userRepositoryJPA;
+    public UserRepositoryAdapter(UserDAO userDAO) {
+        this.userDAO = userDAO;
     }
 
     @Override
     public Optional<User> findByEmail(String email) {
-        return this.userRepositoryJPA.findByEmail(email)
+        return this.userDAO.findByEmail(email)
                 .map(this::map);
     }
 
     @Override
     public void save(User user) {
-        this.userRepositoryJPA.save(map(user));
+        this.userDAO.save(map(user));
     }
 
     private User map(UserEntity userEntity) {
