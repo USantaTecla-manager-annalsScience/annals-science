@@ -40,6 +40,7 @@ public class PersonResource {
     }
 
     @DeleteMapping("{id}")
+    @PreAuthorize("authenticated")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         personService.delete(id);
         return ResponseEntity.ok().build();
@@ -54,6 +55,7 @@ public class PersonResource {
     }
 
     @PutMapping("{id}")
+    @PreAuthorize("authenticated")
     public ResponseEntity<PersonDTO> update(@RequestBody CreatePersonDTO createPersonDTO, @PathVariable Long id) {
         Person person = personService.update(id, personDTOMapper.map(createPersonDTO));
         return ResponseEntity.ok(personDTOMapper.map(person));
