@@ -60,4 +60,26 @@ public class PersonService {
                 .orElseThrow(() -> new CategoryNotExistException("Category with name " + name + " not exist"));
         return personRepository.findByCategory(category);
     }
+
+    public Person update(Long id, CreatePerson updatePerson) {
+        Person person = personRepository.findById(id)
+                .orElseThrow(() -> new PersonNotExistException("Person with id: " + id + " not exist"));
+        checkIfAllCategoriesExist(updatePerson.getCategoriesId());
+        person.setName(updatePerson.getName());
+        person.setSurname(updatePerson.getSurname());
+        person.setBirthDate(updatePerson.getBirthDate());
+        person.setDeathDate(updatePerson.getDeathDate());
+        person.setDescription(updatePerson.getDescription());
+        person.setImageUrl(updatePerson.getImageUrl());
+        person.setWikiUrl(updatePerson.getWikiUrl());
+        person.setCategories(retrieveCategories(updatePerson.getCategoriesId()));
+        return personRepository.update(person);
+    }
+
+    private List<Category> retrieveCategories(List<Long> categoriesId) {
+        return categoriesId.stream()
+                .map(categoryRepository::findById)
+                .map(category -> category.orElseThrow(() -> new CategoryNotExistException("Category not exist")))
+                .collect(Collectors.toList());
+    }
 }

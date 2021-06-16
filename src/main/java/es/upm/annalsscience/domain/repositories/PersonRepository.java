@@ -13,4 +13,5 @@ public interface PersonRepository {
     List<Person> findAll();
     List<Person> findByCategory(Category category);
     void delete(Person person);
+    Person update(Person person);
 }

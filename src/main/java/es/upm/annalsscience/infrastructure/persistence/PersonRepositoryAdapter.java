@@ -58,4 +58,10 @@ public class PersonRepositoryAdapter implements PersonRepository {
     public void delete(Person person) {
         this.personDAO.delete(personMapper.map(person));
     }
+
+    @Override
+    public Person update(Person person) {
+        PersonEntity personEntity = personMapper.map(person);
+        return personMapper.map(personDAO.save(personEntity));
+    }
 }

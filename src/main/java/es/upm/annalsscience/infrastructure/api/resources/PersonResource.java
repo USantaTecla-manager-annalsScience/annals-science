@@ -52,4 +52,10 @@ public class PersonResource {
         else persons = personService.findByCategory(category);
         return ResponseEntity.ok(personDTOMapper.map(persons));
     }
+
+    @PutMapping("{id}")
+    public ResponseEntity<PersonDTO> update(@RequestBody CreatePersonDTO createPersonDTO, @PathVariable Long id) {
+        Person person = personService.update(id, personDTOMapper.map(createPersonDTO));
+        return ResponseEntity.ok(personDTOMapper.map(person));
+    }
 }
