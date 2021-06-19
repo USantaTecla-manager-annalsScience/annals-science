@@ -46,8 +46,8 @@ public class EntityDTOMapper {
         entityDTO.setDescription(entity.getDescription());
         entityDTO.setImageUrl(entity.getImageUrl());
         entityDTO.setWikiUrl(entity.getWikiUrl());
-        entityDTO.setCategoriesId(categoryDTOMapper.map(entity.getCategories()));
-        entityDTO.setPersonsId(personDTOMapper.map(entity.getPersons()));
+        entityDTO.setCategories(categoryDTOMapper.map(entity.getCategories()));
+        entityDTO.setPersons(personDTOMapper.map(entity.getPersons()));
         return entityDTO;
     }
 

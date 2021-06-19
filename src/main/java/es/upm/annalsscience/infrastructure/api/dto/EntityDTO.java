@@ -10,8 +10,8 @@ public class EntityDTO {
     private String description;
     private String imageUrl;
     private String wikiUrl;
-    private List<CategoryDTO> categoriesId;
-    private List<PersonDTO> personsId;
+    private List<CategoryDTO> categories;
+    private List<PersonDTO> persons;
 
     public Long getId() {
         return id;
@@ -69,19 +69,19 @@ public class EntityDTO {
         this.wikiUrl = wikiUrl;
     }
 
-    public List<CategoryDTO> getCategoriesId() {
-        return categoriesId;
+    public List<CategoryDTO> getCategories() {
+        return categories;
     }
 
-    public void setCategoriesId(List<CategoryDTO> categoriesId) {
-        this.categoriesId = categoriesId;
+    public void setCategories(List<CategoryDTO> categories) {
+        this.categories = categories;
     }
 
-    public List<PersonDTO> getPersonsId() {
-        return personsId;
+    public List<PersonDTO> getPersons() {
+        return persons;
     }
 
-    public void setPersonsId(List<PersonDTO> personsId) {
-        this.personsId = personsId;
+    public void setPersons(List<PersonDTO> persons) {
+        this.persons = persons;
     }
 }
