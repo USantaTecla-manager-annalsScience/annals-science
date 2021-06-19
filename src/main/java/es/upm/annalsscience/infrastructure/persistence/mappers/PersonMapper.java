@@ -5,6 +5,7 @@ import es.upm.annalsscience.domain.model.Person;
 import es.upm.annalsscience.infrastructure.persistence.entities.CategoryEntity;
 import es.upm.annalsscience.infrastructure.persistence.entities.PersonEntity;
 import es.upm.annalsscience.infrastructure.persistence.jpa.CategoryDAO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public class PersonMapper {
     private final CategoryDAO categoryDAO;
     private final CategoryMapper categoryMapper;
 
+    @Autowired
     public PersonMapper(CategoryDAO categoryDAO, CategoryMapper categoryMapper) {
         this.categoryDAO = categoryDAO;
         this.categoryMapper = categoryMapper;
@@ -72,6 +74,12 @@ public class PersonMapper {
 
     public List<Person> map(List<PersonEntity> personEntities) {
         return personEntities.stream()
+                .map(this::map)
+                .collect(Collectors.toList());
+    }
+
+    public List<PersonEntity> mapToEntities(List<Person> persons) {
+        return persons.stream()
                 .map(this::map)
                 .collect(Collectors.toList());
     }
