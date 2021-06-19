@@ -4,7 +4,11 @@ import es.upm.annalsscience.domain.model.Category;
 import es.upm.annalsscience.domain.model.CreateCategory;
 import es.upm.annalsscience.domain.repositories.CategoryRepository;
 import es.upm.annalsscience.infrastructure.persistence.entities.CategoryEntity;
+import es.upm.annalsscience.infrastructure.persistence.entities.EntityEntity;
+import es.upm.annalsscience.infrastructure.persistence.entities.PersonEntity;
 import es.upm.annalsscience.infrastructure.persistence.jpa.CategoryDAO;
+import es.upm.annalsscience.infrastructure.persistence.jpa.EntityDAO;
+import es.upm.annalsscience.infrastructure.persistence.jpa.PersonDAO;
 import es.upm.annalsscience.infrastructure.persistence.mappers.CategoryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,11 +22,18 @@ public class CategoryRepositoryAdapter implements CategoryRepository {
 
     private final CategoryDAO categoryDAO;
     private final CategoryMapper categoryMapper;
+    private final PersonDAO personDAO;
+    private final EntityDAO entityDAO;
 
     @Autowired
-    public CategoryRepositoryAdapter(CategoryDAO categoryDAO, CategoryMapper categoryMapper) {
+    public CategoryRepositoryAdapter(CategoryDAO categoryDAO,
+                                     CategoryMapper categoryMapper,
+                                     PersonDAO personDAO,
+                                     EntityDAO entityDAO) {
         this.categoryDAO = categoryDAO;
         this.categoryMapper = categoryMapper;
+        this.personDAO = personDAO;
+        this.entityDAO = entityDAO;
     }
 
     @Override
@@ -50,10 +61,24 @@ public class CategoryRepositoryAdapter implements CategoryRepository {
     @Override
     public void delete(Category category) {
         CategoryEntity categoryEntity = categoryMapper.map(category);
+
         List<CategoryEntity> childrenCategories = categoryDAO.findByParentId(category.getId())
                 .stream()
                 .peek(ce -> ce.setParentId(null))
                 .collect(Collectors.toList());
+
+        List<PersonEntity> personsWithCategoryToDelete = personDAO.findByCategories(categoryEntity)
+                .stream()
+                .peek(personEntity -> personEntity.getCategories().remove(categoryEntity))
+                .collect(Collectors.toList());
+        personsWithCategoryToDelete.forEach(personDAO::save);
+
+        List<EntityEntity> entitiesWithCategoryToDelete = entityDAO.findByCategories(categoryEntity)
+                .stream()
+                .peek(entityEntity -> entityEntity.getCategories().remove(categoryEntity))
+                .collect(Collectors.toList());
+        entitiesWithCategoryToDelete.forEach(entityDAO::save);
+
         this.categoryDAO.saveAll(childrenCategories);
         this.categoryDAO.delete(categoryEntity);
     }

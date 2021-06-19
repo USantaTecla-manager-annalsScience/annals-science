@@ -5,7 +5,9 @@ import es.upm.annalsscience.domain.model.CreatePerson;
 import es.upm.annalsscience.domain.model.Person;
 import es.upm.annalsscience.domain.repositories.PersonRepository;
 import es.upm.annalsscience.infrastructure.persistence.entities.CategoryEntity;
+import es.upm.annalsscience.infrastructure.persistence.entities.EntityEntity;
 import es.upm.annalsscience.infrastructure.persistence.entities.PersonEntity;
+import es.upm.annalsscience.infrastructure.persistence.jpa.EntityDAO;
 import es.upm.annalsscience.infrastructure.persistence.jpa.PersonDAO;
 import es.upm.annalsscience.infrastructure.persistence.mappers.CategoryMapper;
 import es.upm.annalsscience.infrastructure.persistence.mappers.PersonMapper;
@@ -14,19 +16,23 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class PersonRepositoryAdapter implements PersonRepository {
 
     private final PersonDAO personDAO;
+    private final EntityDAO entityDAO;
     private final PersonMapper personMapper;
     private final CategoryMapper categoryMapper;
 
     @Autowired
     public PersonRepositoryAdapter(PersonDAO personDAO,
+                                   EntityDAO entityDAO,
                                    PersonMapper personMapper,
                                    CategoryMapper categoryMapper) {
         this.personDAO = personDAO;
+        this.entityDAO = entityDAO;
         this.personMapper = personMapper;
         this.categoryMapper = categoryMapper;
     }
@@ -56,7 +62,15 @@ public class PersonRepositoryAdapter implements PersonRepository {
 
     @Override
     public void delete(Person person) {
-        this.personDAO.delete(personMapper.map(person));
+        PersonEntity personEntity = personMapper.map(person);
+
+        List<EntityEntity> entitiesWithPersonsToDelete = entityDAO.findAll()
+                .stream()
+                .peek(entityEntity -> entityEntity.getPersons().remove(personEntity))
+                .collect(Collectors.toList());
+        entitiesWithPersonsToDelete.forEach(entityDAO::save);
+
+        this.personDAO.delete(personEntity);
     }
 
     @Override

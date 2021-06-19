@@ -2,6 +2,7 @@ package es.upm.annalsscience.infrastructure.persistence.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 @Entity
 @Table(name = "category")
@@ -39,5 +40,18 @@ public class CategoryEntity {
 
     public void setParentId(Long parentId) {
         this.parentId = parentId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CategoryEntity that = (CategoryEntity) o;
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(parentId, that.parentId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, parentId);
     }
 }

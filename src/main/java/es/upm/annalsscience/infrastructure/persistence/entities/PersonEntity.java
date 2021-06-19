@@ -2,6 +2,7 @@ package es.upm.annalsscience.infrastructure.persistence.entities;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "person")
@@ -105,5 +106,18 @@ public class PersonEntity {
 
     public void setCategories(List<CategoryEntity> categories) {
         this.categories = categories;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PersonEntity that = (PersonEntity) o;
+        return id == that.id && Objects.equals(name, that.name) && Objects.equals(surname, that.surname) && Objects.equals(birthDate, that.birthDate) && Objects.equals(deathDate, that.deathDate) && Objects.equals(description, that.description) && Objects.equals(imageUrl, that.imageUrl) && Objects.equals(wikiUrl, that.wikiUrl) && Objects.equals(categories, that.categories);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, surname, birthDate, deathDate, description, imageUrl, wikiUrl, categories);
     }
 }
