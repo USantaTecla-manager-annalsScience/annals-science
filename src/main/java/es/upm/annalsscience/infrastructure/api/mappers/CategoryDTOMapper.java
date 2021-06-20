@@ -22,6 +22,21 @@ public class CategoryDTOMapper {
     }
 
     public CategoryDTO map(Category category) {
-        return new CategoryDTO(category.getId(), category.getName(), category.getParentId());
+        return new CategoryDTO(category.getId(), category.getName(), map(category.getParent()), mapRelated(category.getChildren()));
+    }
+
+    public CategoryDTO.RelatedCategoryDTO map(Category.RelatedCategory relatedCategory) {
+        if(relatedCategory == null) return null;
+        CategoryDTO.RelatedCategoryDTO relatedCategoryDTO = new CategoryDTO.RelatedCategoryDTO();
+        relatedCategoryDTO.setId(relatedCategory.getId());
+        relatedCategoryDTO.setName(relatedCategory.getName());
+        return relatedCategoryDTO;
+    }
+
+    public List<CategoryDTO.RelatedCategoryDTO> mapRelated(List<Category.RelatedCategory> relatedCategories) {
+        return relatedCategories
+                .stream()
+                .map(this::map)
+                .collect(Collectors.toList());
     }
 }

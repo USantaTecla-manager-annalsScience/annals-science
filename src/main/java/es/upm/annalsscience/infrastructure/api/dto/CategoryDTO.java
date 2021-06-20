@@ -1,14 +1,18 @@
 package es.upm.annalsscience.infrastructure.api.dto;
 
+import java.util.List;
+
 public class CategoryDTO {
     private Long id;
     private String name;
-    private Long parentId;
+    private RelatedCategoryDTO parent;
+    private List<RelatedCategoryDTO> children;
 
-    public CategoryDTO(Long id, String name, Long parentId) {
+    public CategoryDTO(Long id, String name, RelatedCategoryDTO parent, List<RelatedCategoryDTO> children) {
         this.id = id;
         this.name = name;
-        this.parentId = parentId;
+        this.parent = parent;
+        this.children = children;
     }
 
     public Long getId() {
@@ -27,11 +31,41 @@ public class CategoryDTO {
         this.name = name;
     }
 
-    public Long getParentId() {
-        return parentId;
+    public RelatedCategoryDTO getParent() {
+        return parent;
     }
 
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
+    public void setParent(RelatedCategoryDTO parent) {
+        this.parent = parent;
+    }
+
+    public List<RelatedCategoryDTO> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<RelatedCategoryDTO> children) {
+        this.children = children;
+    }
+
+
+    public static class RelatedCategoryDTO {
+        private Long id;
+        private String name;
+
+        public Long getId() {
+            return id;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
     }
 }
