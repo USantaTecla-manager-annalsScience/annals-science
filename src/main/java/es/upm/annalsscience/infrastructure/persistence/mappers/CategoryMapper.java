@@ -43,7 +43,8 @@ public class CategoryMapper {
         CategoryEntity categoryEntity = new CategoryEntity();
         categoryEntity.setId(category.getId());
         categoryEntity.setName(category.getName());
-        categoryEntity.setParentId(category.getParent().getId());
+        if(category.getParent() != null)
+            categoryEntity.setParentId(category.getParent().getId());
         return categoryEntity;
     }
 
