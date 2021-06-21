@@ -6,9 +6,11 @@ import es.upm.annalsscience.domain.repositories.CategoryRepository;
 import es.upm.annalsscience.infrastructure.persistence.entities.CategoryEntity;
 import es.upm.annalsscience.infrastructure.persistence.entities.EntityEntity;
 import es.upm.annalsscience.infrastructure.persistence.entities.PersonEntity;
+import es.upm.annalsscience.infrastructure.persistence.entities.ProductEntity;
 import es.upm.annalsscience.infrastructure.persistence.jpa.CategoryDAO;
 import es.upm.annalsscience.infrastructure.persistence.jpa.EntityDAO;
 import es.upm.annalsscience.infrastructure.persistence.jpa.PersonDAO;
+import es.upm.annalsscience.infrastructure.persistence.jpa.ProductDAO;
 import es.upm.annalsscience.infrastructure.persistence.mappers.CategoryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,16 +26,19 @@ public class CategoryRepositoryAdapter implements CategoryRepository {
     private final CategoryMapper categoryMapper;
     private final PersonDAO personDAO;
     private final EntityDAO entityDAO;
+    private final ProductDAO productDAO;
 
     @Autowired
     public CategoryRepositoryAdapter(CategoryDAO categoryDAO,
                                      CategoryMapper categoryMapper,
                                      PersonDAO personDAO,
-                                     EntityDAO entityDAO) {
+                                     EntityDAO entityDAO,
+                                     ProductDAO productDAO) {
         this.categoryDAO = categoryDAO;
         this.categoryMapper = categoryMapper;
         this.personDAO = personDAO;
         this.entityDAO = entityDAO;
+        this.productDAO = productDAO;
     }
 
     @Override
@@ -78,6 +83,12 @@ public class CategoryRepositoryAdapter implements CategoryRepository {
                 .peek(entityEntity -> entityEntity.getCategories().remove(categoryEntity))
                 .collect(Collectors.toList());
         entitiesWithCategoryToDelete.forEach(entityDAO::save);
+
+        List<ProductEntity> productsWithCategoryToDelete = productDAO.findByCategories(categoryEntity)
+                .stream()
+                .peek(entityEntity -> entityEntity.getCategories().remove(categoryEntity))
+                .collect(Collectors.toList());
+        productsWithCategoryToDelete.forEach(productDAO::save);
 
         this.categoryDAO.saveAll(childrenCategories);
         this.categoryDAO.delete(categoryEntity);

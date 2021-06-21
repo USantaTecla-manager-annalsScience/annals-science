@@ -7,8 +7,10 @@ import es.upm.annalsscience.domain.repositories.PersonRepository;
 import es.upm.annalsscience.infrastructure.persistence.entities.CategoryEntity;
 import es.upm.annalsscience.infrastructure.persistence.entities.EntityEntity;
 import es.upm.annalsscience.infrastructure.persistence.entities.PersonEntity;
+import es.upm.annalsscience.infrastructure.persistence.entities.ProductEntity;
 import es.upm.annalsscience.infrastructure.persistence.jpa.EntityDAO;
 import es.upm.annalsscience.infrastructure.persistence.jpa.PersonDAO;
+import es.upm.annalsscience.infrastructure.persistence.jpa.ProductDAO;
 import es.upm.annalsscience.infrastructure.persistence.mappers.CategoryMapper;
 import es.upm.annalsscience.infrastructure.persistence.mappers.PersonMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,16 +25,19 @@ public class PersonRepositoryAdapter implements PersonRepository {
 
     private final PersonDAO personDAO;
     private final EntityDAO entityDAO;
+    private final ProductDAO productDAO;
     private final PersonMapper personMapper;
     private final CategoryMapper categoryMapper;
 
     @Autowired
     public PersonRepositoryAdapter(PersonDAO personDAO,
                                    EntityDAO entityDAO,
+                                   ProductDAO productDAO,
                                    PersonMapper personMapper,
                                    CategoryMapper categoryMapper) {
         this.personDAO = personDAO;
         this.entityDAO = entityDAO;
+        this.productDAO = productDAO;
         this.personMapper = personMapper;
         this.categoryMapper = categoryMapper;
     }
@@ -69,6 +74,12 @@ public class PersonRepositoryAdapter implements PersonRepository {
                 .peek(entityEntity -> entityEntity.getPersons().remove(personEntity))
                 .collect(Collectors.toList());
         entitiesWithPersonsToDelete.forEach(entityDAO::save);
+
+        List<ProductEntity> productsWithPersonsToDelete = productDAO.findAll()
+                .stream()
+                .peek(entityEntity -> entityEntity.getPersons().remove(personEntity))
+                .collect(Collectors.toList());
+        productsWithPersonsToDelete.forEach(productDAO::save);
 
         this.personDAO.delete(personEntity);
     }

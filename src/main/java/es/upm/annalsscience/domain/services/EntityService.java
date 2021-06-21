@@ -81,6 +81,7 @@ public class EntityService {
         Entity entity = entityRepository.findById(id)
                 .orElseThrow(() -> new PersonNotExistException("Person with id: " + id + " not exist"));
         checkIfAllCategoriesExist(updateEntity.getCategoriesId());
+        checkIfAllPersonsExist(updateEntity.getPersonsId());
         entity.setName(updateEntity.getName());
         entity.setCreationDate(updateEntity.getCreationDate());
         entity.setEndDate(updateEntity.getEndDate());

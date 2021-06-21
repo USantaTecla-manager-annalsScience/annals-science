@@ -6,27 +6,35 @@ import es.upm.annalsscience.domain.model.Entity;
 import es.upm.annalsscience.domain.repositories.EntityRepository;
 import es.upm.annalsscience.infrastructure.persistence.entities.CategoryEntity;
 import es.upm.annalsscience.infrastructure.persistence.entities.EntityEntity;
+import es.upm.annalsscience.infrastructure.persistence.entities.ProductEntity;
 import es.upm.annalsscience.infrastructure.persistence.jpa.EntityDAO;
+import es.upm.annalsscience.infrastructure.persistence.jpa.ProductDAO;
 import es.upm.annalsscience.infrastructure.persistence.mappers.CategoryMapper;
 import es.upm.annalsscience.infrastructure.persistence.mappers.EntityMapper;
+import es.upm.annalsscience.infrastructure.persistence.mappers.ProductMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class EntityRepositoryAdapter implements EntityRepository {
 
     private final EntityDAO entityDAO;
+    private final ProductDAO productDAO;
     private final EntityMapper entityMapper;
     private final CategoryMapper categoryMapper;
 
     @Autowired
     public EntityRepositoryAdapter(EntityDAO entityDAO,
+                                   ProductDAO productDAO,
                                    EntityMapper entityMapper,
-                                   CategoryMapper categoryMapper) {
+                                   CategoryMapper categoryMapper,
+                                   ProductMapper productMapper) {
         this.entityDAO = entityDAO;
+        this.productDAO = productDAO;
         this.entityMapper = entityMapper;
         this.categoryMapper = categoryMapper;
     }
@@ -45,6 +53,13 @@ public class EntityRepositoryAdapter implements EntityRepository {
 
     @Override
     public void delete(Entity entity) {
+        EntityEntity entityEntity = entityMapper.map(entity);
+        List<ProductEntity> productsWithEntitiesToDelete = productDAO.findAll()
+                .stream()
+                .peek(productEntity -> productEntity.getEntities().remove(entityEntity))
+                .collect(Collectors.toList());
+        productsWithEntitiesToDelete.forEach(productDAO::save);
+
         this.entityDAO.delete(entityMapper.map(entity));
     }
 
