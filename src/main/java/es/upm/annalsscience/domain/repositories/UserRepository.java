@@ -1,4 +1,4 @@
-package es.upm.annalsscience.domain;
+package es.upm.annalsscience.domain.repositories;
 
 import es.upm.annalsscience.domain.model.User;
 

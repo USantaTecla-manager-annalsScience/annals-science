@@ -1,6 +1,6 @@
 package es.upm.annalsscience.configuration.security.service;
 
-import es.upm.annalsscience.domain.UserRepository;
+import es.upm.annalsscience.domain.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
