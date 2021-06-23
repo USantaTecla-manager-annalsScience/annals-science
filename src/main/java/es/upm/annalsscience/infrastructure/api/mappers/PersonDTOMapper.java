@@ -39,6 +39,7 @@ public class PersonDTOMapper {
         personDTO.setId(person.getId());
         personDTO.setName(person.getName());
         personDTO.setSurname(person.getSurname());
+        personDTO.setBirthDate(person.getBirthDate());
         personDTO.setDeathDate(person.getDeathDate());
         personDTO.setDescription(person.getDescription());
         personDTO.setImageUrl(person.getImageUrl());
