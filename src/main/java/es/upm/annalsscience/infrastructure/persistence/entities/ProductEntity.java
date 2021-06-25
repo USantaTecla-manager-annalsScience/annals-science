@@ -1,11 +1,16 @@
 package es.upm.annalsscience.infrastructure.persistence.entities;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "product")
+@Getter
+@Setter
 public class ProductEntity {
 
     @Id
@@ -38,86 +43,6 @@ public class ProductEntity {
 
     @ManyToMany(targetEntity = EntityEntity.class)
     private List<EntityEntity> entities;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(String creationDate) {
-        this.creationDate = creationDate;
-    }
-
-    public String getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(String endDate) {
-        this.endDate = endDate;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public String getWikiUrl() {
-        return wikiUrl;
-    }
-
-    public void setWikiUrl(String wikiUrl) {
-        this.wikiUrl = wikiUrl;
-    }
-
-    public List<CategoryEntity> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(List<CategoryEntity> categories) {
-        this.categories = categories;
-    }
-
-    public List<PersonEntity> getPersons() {
-        return persons;
-    }
-
-    public void setPersons(List<PersonEntity> persons) {
-        this.persons = persons;
-    }
-
-    public List<EntityEntity> getEntities() {
-        return entities;
-    }
-
-    public void setEntities(List<EntityEntity> entities) {
-        this.entities = entities;
-    }
 
     @Override
     public boolean equals(Object o) {
