@@ -35,7 +35,7 @@ class PersonServiceTest {
     private PersonService personService;
 
     @Test
-    public void shouldCreatePerson() {
+    void shouldCreatePerson() {
         //GIVEN
         CreatePerson createPerson = Utils.getCreatePerson();
         Person expectedPerson = Utils.getPerson();
@@ -51,7 +51,7 @@ class PersonServiceTest {
     }
 
     @Test
-    public void shouldThrowExceptionWhenCategoryNotExist() {
+    void shouldThrowExceptionWhenCategoryNotExist() {
         //GIVEN
         CreatePerson createPerson = Utils.getCreatePerson();
         when(categoryRepository.findAll())
@@ -63,7 +63,7 @@ class PersonServiceTest {
     }
 
     @Test
-    public void shouldFindById() {
+    void shouldFindById() {
         //GIVEN
         Long id = 1L;
         Optional<Person> expectedPerson = Optional.of(Utils.getPerson());
@@ -76,7 +76,7 @@ class PersonServiceTest {
     }
 
     @Test
-    public void shouldFindAll() {
+    void shouldFindAll() {
         //GIVEN
         List<Person> expectedPerson = Arrays.asList(Utils.getPerson());
         when(personRepository.findAll())
@@ -88,7 +88,7 @@ class PersonServiceTest {
     }
 
     @Test
-    public void shouldDelete() {
+    void shouldDelete() {
         //GIVEN
         Long id = 1L;
         Optional<Person> expectedPerson = Optional.of(Utils.getPerson());
@@ -101,7 +101,7 @@ class PersonServiceTest {
     }
 
     @Test
-    public void shouldThrowExceptionWhenPersonNotExistInDelete() {
+    void shouldThrowExceptionWhenPersonNotExistInDelete() {
         //GIVEN
         Long id = 1L;
         when(personRepository.findById(id))
@@ -113,7 +113,7 @@ class PersonServiceTest {
     }
 
     @Test
-    public void shouldFindByCategory() {
+    void shouldFindByCategory() {
         //GIVEN
         String categoryName = "categoryName";
         Category category = Utils.getCategory();
@@ -130,7 +130,7 @@ class PersonServiceTest {
     }
 
     @Test
-    public void shouldThrowExceptionWhenCategoryNotExistInFindByCategory() {
+    void shouldThrowExceptionWhenCategoryNotExistInFindByCategory() {
         //GIVEN
         String categoryName = "categoryName";
         when(categoryRepository.findByName(categoryName))
@@ -142,7 +142,7 @@ class PersonServiceTest {
     }
 
     @Test
-    public void shouldUpdate() {
+    void shouldUpdate() {
         //GIVEN
         Long id = 1L;
         Optional<Person> expectedPerson = Optional.of(Utils.getPerson());
@@ -164,7 +164,7 @@ class PersonServiceTest {
     }
 
     @Test
-    public void shouldThrowExceptionWhenPersonNotExistInUpdate(){
+    void shouldThrowExceptionWhenPersonNotExistInUpdate(){
         //GIVEN
         Long id = 1L;
         CreatePerson createPerson = Utils.getCreatePerson();

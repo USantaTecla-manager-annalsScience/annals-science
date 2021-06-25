@@ -25,7 +25,7 @@ class UserServiceTest {
     private UserService userService;
 
     @Test
-    public void shouldCreateUser() {
+    void shouldCreateUser() {
         //GIVEN
         User expectedUser = getUser();
         when(userRepository.findByEmail(expectedUser.getEmail()))
@@ -38,7 +38,7 @@ class UserServiceTest {
     }
 
     @Test
-    public void shouldThrowExceptionWhenUserAlreadyExist() {
+    void shouldThrowExceptionWhenUserAlreadyExist() {
         //GIVEN
         User expectedUser = getUser();
         when(userRepository.findByEmail(expectedUser.getEmail()))
@@ -50,7 +50,7 @@ class UserServiceTest {
     }
 
     @Test
-    public void shouldReturnUserWhenFindByEmail() {
+    void shouldReturnUserWhenFindByEmail() {
         //GIVEN
         User expectedUser = getUser();
         when(userRepository.findByEmail(expectedUser.getEmail()))

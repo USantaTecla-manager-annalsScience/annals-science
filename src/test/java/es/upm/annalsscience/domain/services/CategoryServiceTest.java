@@ -29,7 +29,7 @@ class CategoryServiceTest {
     private CategoryService categoryService;
 
     @Test
-    public void shouldCreateCategory() {
+    void shouldCreateCategory() {
         //GIVEN
         String categoryName = "categoryName";
         Long categoryId = 1L;
@@ -49,7 +49,7 @@ class CategoryServiceTest {
     }
 
     @Test
-    public void shouldThrowExceptionWhenCategoryAlreadyExist() {
+    void shouldThrowExceptionWhenCategoryAlreadyExist() {
         //GIVEN
         String categoryName = "categoryName";
         Long categoryId = 1L;
@@ -64,7 +64,7 @@ class CategoryServiceTest {
     }
 
     @Test
-    public void shouldThrowExceptionWhenParentNotExist() {
+    void shouldThrowExceptionWhenParentNotExist() {
         //GIVEN
         String categoryName = "categoryName";
         Long categoryId = 1L;
@@ -81,7 +81,7 @@ class CategoryServiceTest {
     }
 
     @Test
-    public void shouldFindAll() {
+    void shouldFindAll() {
         //GIVEN
         List<Category> expectedCategories = Arrays.asList(Utils.getCategory());
         when(categoryRepository.findAll())
@@ -93,7 +93,7 @@ class CategoryServiceTest {
     }
 
     @Test
-    public void shouldThrowExceptionWhenCategoryNotExistInDelete() {
+    void shouldThrowExceptionWhenCategoryNotExistInDelete() {
         //GIVEN
         Long categoryId = 1L;
 
@@ -104,7 +104,7 @@ class CategoryServiceTest {
     }
 
     @Test
-    public void shouldDelete() {
+    void shouldDelete() {
         //GIVEN
         Long categoryId = 1L;
         Category category = Utils.getCategory();

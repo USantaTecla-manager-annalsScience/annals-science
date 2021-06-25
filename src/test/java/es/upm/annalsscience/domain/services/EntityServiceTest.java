@@ -36,7 +36,7 @@ class EntityServiceTest {
     private EntityService entityService;
 
     @Test
-    public void shouldCreateEntity() {
+    void shouldCreateEntity() {
         //GIVEN
         CreateEntity createEntity = Utils.getCreateEntity();
         Entity expectedEntity = Utils.getEntity();
@@ -54,7 +54,7 @@ class EntityServiceTest {
     }
 
     @Test
-    public void shouldThrowExceptionWhenCategoryNotExistInCreateEntity() {
+    void shouldThrowExceptionWhenCategoryNotExistInCreateEntity() {
         //GIVEN
         CreateEntity createEntity = Utils.getCreateEntity();
         when(categoryRepository.findAll())
@@ -66,7 +66,7 @@ class EntityServiceTest {
     }
 
     @Test
-    public void shouldThrowExceptionWhenPersonNotExistInCreateEntity() {
+    void shouldThrowExceptionWhenPersonNotExistInCreateEntity() {
         //GIVEN
         CreateEntity createEntity = Utils.getCreateEntity();
         when(categoryRepository.findAll())
@@ -80,7 +80,7 @@ class EntityServiceTest {
     }
 
     @Test
-    public void shouldFindById() {
+    void shouldFindById() {
         //GIVEN
         Long id = 1L;
         Optional<Entity> expectedEntity = Optional.of(Utils.getEntity());
@@ -93,7 +93,7 @@ class EntityServiceTest {
     }
 
     @Test
-    public void shouldFindAll() {
+    void shouldFindAll() {
         //GIVEN
         List<Entity> expectedEntity = Arrays.asList(Utils.getEntity());
         when(entityRepository.findAll())
@@ -105,7 +105,7 @@ class EntityServiceTest {
     }
 
     @Test
-    public void shouldDelete() {
+    void shouldDelete() {
         //GIVEN
         Long id = 1L;
         Optional<Entity> expectedEntity = Optional.of(Utils.getEntity());
@@ -130,7 +130,7 @@ class EntityServiceTest {
     }
 
     @Test
-    public void shouldFindByCategory() {
+    void shouldFindByCategory() {
         //GIVEN
         String categoryName = "categoryName";
         Category category = Utils.getCategory();
@@ -147,7 +147,7 @@ class EntityServiceTest {
     }
 
     @Test
-    public void shouldThrowExceptionWhenCategoryNotExistInFindByCategory() {
+    void shouldThrowExceptionWhenCategoryNotExistInFindByCategory() {
         //GIVEN
         String categoryName = "categoryName";
         when(categoryRepository.findByName(categoryName))
@@ -159,7 +159,7 @@ class EntityServiceTest {
     }
 
     @Test
-    public void shouldUpdate() {
+    void shouldUpdate() {
         //GIVEN
         Long id = 1L;
         Optional<Entity> expectedEntity = Optional.of(Utils.getEntity());
@@ -185,7 +185,7 @@ class EntityServiceTest {
     }
 
     @Test
-    public void shouldThrowExceptionWhenEntityNotExistInUpdate(){
+    void shouldThrowExceptionWhenEntityNotExistInUpdate(){
         //GIVEN
         Long id = 1L;
         CreateEntity createEntity = Utils.getCreateEntity();

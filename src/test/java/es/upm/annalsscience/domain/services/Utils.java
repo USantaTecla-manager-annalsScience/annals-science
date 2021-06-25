@@ -33,8 +33,13 @@ public class Utils {
         return Arrays.asList(1L);
     }
 
+    public static List<Long> getEntitiesId() {
+        return Arrays.asList(1L);
+    }
+
     public static Entity getEntity() {
         Entity entity = new Entity();
+        entity.setId(1L);
         entity.setCategories(Arrays.asList(getCategory()));
         entity.setPersons(Arrays.asList(getPerson()));
         return entity;
@@ -45,5 +50,21 @@ public class Utils {
         createEntity.setCategoriesId(getCategoriesId());
         createEntity.setPersonsId(getPersonsId());
         return createEntity;
+    }
+
+    public static Product getProduct() {
+        Product product = new Product();
+        product.setCategories(Arrays.asList(getCategory()));
+        product.setPersons(Arrays.asList(getPerson()));
+        product.setEntities(Arrays.asList(getEntity()));
+        return product;
+    }
+
+    public static CreateProduct getCreateProduct() {
+        CreateProduct createProduct = new CreateProduct();
+        createProduct.setCategoriesId(getCategoriesId());
+        createProduct.setPersonsId(getPersonsId());
+        createProduct.setEntitiesId(getEntitiesId());
+        return createProduct;
     }
 }
