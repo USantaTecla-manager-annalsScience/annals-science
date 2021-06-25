@@ -1,5 +1,9 @@
 package es.upm.annalsscience.domain.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
 public class CreateCategory {
     private String name;
     private Long parentId;
@@ -7,13 +11,5 @@ public class CreateCategory {
     public CreateCategory(String name, Long parentId) {
         this.name = name;
         this.parentId = parentId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Long getParentId() {
-        return parentId;
     }
 }
