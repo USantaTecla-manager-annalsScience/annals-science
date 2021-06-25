@@ -51,7 +51,7 @@ class PersonServiceTest {
     }
 
     @Test
-    public void shouldThrowExceptionWhenCategoryAlreadyExist() {
+    public void shouldThrowExceptionWhenCategoryNotExist() {
         //GIVEN
         CreatePerson createPerson = Utils.getCreatePerson();
         when(categoryRepository.findAll())
@@ -130,7 +130,7 @@ class PersonServiceTest {
     }
 
     @Test
-    public void shouldThrowExceptionWhenCategoryNotExistInFindByCaategory() {
+    public void shouldThrowExceptionWhenCategoryNotExistInFindByCategory() {
         //GIVEN
         String categoryName = "categoryName";
         when(categoryRepository.findByName(categoryName))
