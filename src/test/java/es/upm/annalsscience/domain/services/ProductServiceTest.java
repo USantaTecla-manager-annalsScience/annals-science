@@ -142,7 +142,7 @@ class ProductServiceTest {
     }
 
     @Test
-    public void shouldThrowExceptionWhenProductNotExistInDelete() {
+    void shouldThrowExceptionWhenProductNotExistInDelete() {
         //GIVEN
         Long id = 1L;
         when(productRepository.findById(id))
