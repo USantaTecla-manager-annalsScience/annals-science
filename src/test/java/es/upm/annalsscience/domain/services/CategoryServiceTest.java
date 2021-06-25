@@ -34,7 +34,7 @@ class CategoryServiceTest {
         String categoryName = "categoryName";
         Long categoryId = 1L;
         CreateCategory createCategory = new CreateCategory(categoryName, categoryId);
-        Category expectedCategory = getCategory();
+        Category expectedCategory = Utils.getCategory();
 
         when(categoryRepository.findByName(createCategory.getName()))
                 .thenReturn(Optional.empty());
@@ -56,7 +56,7 @@ class CategoryServiceTest {
         CreateCategory createCategory = new CreateCategory(categoryName, categoryId);
 
         when(categoryRepository.findByName(createCategory.getName()))
-                .thenReturn(Optional.of(getCategory()));
+                .thenReturn(Optional.of(Utils.getCategory()));
         //WHEN
         assertThrows(CategoryAlreadyExistException.class, () -> {
             categoryService.create(createCategory);
@@ -83,7 +83,7 @@ class CategoryServiceTest {
     @Test
     public void shouldFindAll() {
         //GIVEN
-        List<Category> expectedCategories = Arrays.asList(getCategory());
+        List<Category> expectedCategories = Arrays.asList(Utils.getCategory());
         when(categoryRepository.findAll())
                 .thenReturn(expectedCategories);
         //WHEN
@@ -107,7 +107,7 @@ class CategoryServiceTest {
     public void shouldDelete() {
         //GIVEN
         Long categoryId = 1L;
-        Category category = getCategory();
+        Category category = Utils.getCategory();
         when(categoryRepository.findById(categoryId))
                 .thenReturn(Optional.of(category));
 
@@ -118,8 +118,4 @@ class CategoryServiceTest {
         verify(categoryRepository, times(1)).delete(category);
     }
 
-    private Category getCategory() {
-        Category expectedCategory = new Category();
-        return expectedCategory;
-    }
 }
