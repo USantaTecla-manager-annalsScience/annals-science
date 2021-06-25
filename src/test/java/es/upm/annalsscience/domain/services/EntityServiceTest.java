@@ -118,7 +118,7 @@ class EntityServiceTest {
     }
 
     @Test
-    public void shouldThrowExceptionWhenEntityNotExistInDelete() {
+    void shouldThrowExceptionWhenEntityNotExistInDelete() {
         //GIVEN
         Long id = 1L;
         when(entityRepository.findById(id))
