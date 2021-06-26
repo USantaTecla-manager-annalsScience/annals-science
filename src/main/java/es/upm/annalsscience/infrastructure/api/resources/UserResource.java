@@ -36,7 +36,8 @@ public class UserResource {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@AuthenticationPrincipal org.springframework.security.core.userdetails.User activeUser) {
-        User user = userService.findByEmail(activeUser.getUsername()).get();
+        User user = userService.findByEmail(activeUser.getUsername())
+                .orElseThrow(RuntimeException::new);
         return ResponseEntity.ok(jwtService.createToken(user.getEmail(), user.getId()));
     }
 }
